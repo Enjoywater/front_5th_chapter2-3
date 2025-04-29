@@ -24,7 +24,7 @@ import {
   TableHeader,
   TableRow,
   Textarea,
-} from '../shared/ui';
+} from '@/shared/ui';
 
 const PostsManager = () => {
   const navigate = useNavigate();
@@ -500,6 +500,7 @@ const PostsManager = () => {
     </div>
   );
 
+  // PostManagerPage return
   return (
     <Card className='w-full max-w-6xl mx-auto'>
       <CardHeader>

@@ -20,6 +20,22 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            { target: './src/features', from: './src/app' },
+            { target: './src/features', from: './src/widgets' },
+            { target: './src/entities', from: './src/app' },
+            { target: './src/entities', from: './src/widgets' },
+            { target: './src/entities', from: './src/features' },
+            { target: './src/shared', from: './src/app' },
+            { target: './src/shared', from: './src/widgets' },
+            { target: './src/shared', from: './src/features' },
+            { target: './src/shared', from: './src/entities' },
+          ],
+        },
+      ],
     },
   },
 );
