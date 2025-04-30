@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+
 import { Edit2, MessageSquare, Plus, Search, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import {
   Button,
   Card,
@@ -26,7 +28,7 @@ import {
   Textarea,
 } from '@/shared/ui';
 
-const PostsManager = () => {
+export const PostsManager = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -777,5 +779,3 @@ const PostsManager = () => {
     </Card>
   );
 };
-
-export default PostsManager;
