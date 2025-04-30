@@ -1,1 +1,0 @@
-export { PostsManager } from './PostsManagerPage';

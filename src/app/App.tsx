@@ -1,6 +1,6 @@
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import { PostsManager } from '@/pages/posts-manager';
+import { PostsManager } from '@/pages/postManager';
 import Footer from '@/widgets/ui/Footer.tsx';
 import Header from '@/widgets/ui/Header.tsx';
 
@@ -9,9 +9,7 @@ const App = () => {
     <Router>
       <div className='flex flex-col min-h-screen'>
         <Header />
-        <main className='flex-grow container mx-auto px-4 py-8'>
-          <PostsManager />
-        </main>
+        <PostsManager />
         <Footer />
       </div>
     </Router>

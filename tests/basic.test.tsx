@@ -7,7 +7,7 @@ import { setupServer } from 'msw/node';
 import { MemoryRouter } from 'react-router-dom';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
-import { PostsManager } from '@/pages/posts-manager';
+import { PostsManager } from '@/pages/postManager';
 
 import '@testing-library/jest-dom';
 import { TEST_POSTS, TEST_SEARCH_POST, TEST_USERS } from './mockData';
