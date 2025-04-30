@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { Edit2, MessageSquare, Plus, Search, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components';
 import { Button } from '@/shared/components';
 import { Textarea } from '@/shared/components';
 import { Input } from '@/shared/components';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components';
 
+import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
 
 export const PostsManager = () => {
@@ -344,64 +344,15 @@ export const PostsManager = () => {
     setShowEditDialog(true);
   };
 
-  // 댓글 렌더링
-  const renderComments = (postId) => (
-    <div className='mt-2'>
-      <div className='flex items-center justify-between mb-2'>
-        <h3 className='text-sm font-semibold'>댓글</h3>
-        <Button
-          size='sm'
-          onClick={() => {
-            setNewComment((prev) => ({ ...prev, postId }));
-            setShowAddCommentDialog(true);
-          }}
-        >
-          <Plus className='w-3 h-3 mr-1' />
-          댓글 추가
-        </Button>
-      </div>
-      <div className='space-y-1'>
-        {comments[postId]?.map((comment) => (
-          <div
-            key={comment.id}
-            className='flex items-center justify-between text-sm border-b pb-1'
-          >
-            <div className='flex items-center space-x-2 overflow-hidden'>
-              <span className='font-medium truncate'>{comment.user.username}:</span>
-              <span className='truncate'>{highlightText(comment.body, searchQuery)}</span>
-            </div>
-            <div className='flex items-center space-x-1'>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={() => likeComment(comment.id, postId)}
-              >
-                <ThumbsUp className='w-3 h-3' />
-                <span className='ml-1 text-xs'>{comment.likes}</span>
-              </Button>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={() => {
-                  setSelectedComment(comment);
-                  setShowEditCommentDialog(true);
-                }}
-              >
-                <Edit2 className='w-3 h-3' />
-              </Button>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={() => deleteComment(comment.id, postId)}
-              >
-                <Trash2 className='w-3 h-3' />
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  const handleClickAddComment = (postId: string) => {
+    setNewComment((prev) => ({ ...prev, postId }));
+    setShowAddCommentDialog(true);
+  };
+
+  const handleClickEditComment = (comment: any) => {
+    setSelectedComment(comment);
+    setShowEditCommentDialog(true);
+  };
 
   // PostManagerPage return
   return (
@@ -428,7 +379,7 @@ export const PostsManager = () => {
                     className='pl-8'
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && searchPosts()}
+                    onKeyDown={(e) => e.key === 'Enter' && searchPosts()}
                   />
                 </div>
               </div>
@@ -635,20 +586,17 @@ export const PostsManager = () => {
         </Dialog>
 
         {/* 게시물 상세 보기 대화상자 */}
-        <Dialog
-          open={showPostDetailDialog}
-          onOpenChange={setShowPostDetailDialog}
-        >
-          <DialogContent className='max-w-3xl'>
-            <DialogHeader>
-              <DialogTitle>{highlightText(selectedPost?.title, searchQuery)}</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <p>{highlightText(selectedPost?.body, searchQuery)}</p>
-              {renderComments(selectedPost?.id)}
-            </div>
-          </DialogContent>
-        </Dialog>
+        <PostDetail
+          comments={comments}
+          isOpen={showPostDetailDialog}
+          onClickOpenChange={setShowPostDetailDialog}
+          selectedPost={selectedPost}
+          highlightText={highlightText}
+          onClickAdd={handleClickAddComment}
+          onClickLike={likeComment}
+          onClickEdit={handleClickEditComment}
+          onClickDelete={deleteComment}
+        />
 
         {/* 사용자 모달 */}
         <Dialog
