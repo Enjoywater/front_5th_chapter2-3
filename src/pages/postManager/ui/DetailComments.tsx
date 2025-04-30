@@ -1,13 +1,11 @@
-import { ReactNode } from 'react';
-
 import { Edit2, Plus, ThumbsUp, Trash2 } from 'lucide-react';
 
 import { Button } from '@/shared/components';
+import { highlightText } from '@/shared/utils';
 
 interface DetailCommentsProps {
   postId: string;
   comments: any[];
-  highlightText: (text: string, searchQuery: string) => ReactNode;
   onClickAdd: (postId: string) => void;
   onClickLike: (id: string, postId: string) => void;
   onClickEdit: (comment: any) => void;
@@ -17,7 +15,6 @@ interface DetailCommentsProps {
 export const DetailComments = ({
   postId,
   comments,
-  highlightText,
   onClickAdd,
   onClickLike,
   onClickEdit,

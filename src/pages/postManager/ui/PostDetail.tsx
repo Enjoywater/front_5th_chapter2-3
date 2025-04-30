@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components';
+import { highlightText } from '@/shared/utils';
 
 import { DetailComments } from './DetailComments';
 
@@ -8,7 +7,6 @@ interface PostDetailProps {
   isOpen: boolean;
   onClickOpenChange: (value: boolean) => void;
   selectedPost: any;
-  highlightText: (text: string, searchQuery: string) => ReactNode;
   comments: any;
   onClickAdd: (postId: string) => void;
   onClickLike: (id: string, postId: string) => void;
@@ -20,7 +18,6 @@ export const PostDetail = ({
   isOpen,
   onClickOpenChange,
   selectedPost,
-  highlightText,
   comments,
   onClickAdd,
   onClickLike,
@@ -47,7 +44,6 @@ export const PostDetail = ({
             comments={comments}
             onClickLike={onClickLike}
             onClickDelete={onClickDelete}
-            highlightText={highlightText}
             onClickAdd={onClickAdd}
             onClickEdit={onClickEdit}
           />

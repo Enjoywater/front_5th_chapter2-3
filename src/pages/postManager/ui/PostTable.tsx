@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
-
 import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
 
 import { Button } from '@/shared/components';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components';
+import { highlightText } from '@/shared/utils';
 
 const DEFAULT_BUTTON_PROPS: any = {
   variant: 'ghost',
@@ -13,7 +12,6 @@ const DEFAULT_BUTTON_PROPS: any = {
 interface PostTableProps {
   posts: any[];
   selectedTag: string;
-  highlightText: (text: string, searchQuery: string) => ReactNode;
   onClickTag: (tag: string) => void;
   onClickAuthor: (author: any) => void;
   onClickPostComment: (post: any) => void;
@@ -24,7 +22,6 @@ interface PostTableProps {
 export const PostTable = ({
   posts,
   selectedTag,
-  highlightText,
   onClickTag,
   onClickAuthor,
   onClickPostComment,

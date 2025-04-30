@@ -316,24 +316,6 @@ export const PostsManager = () => {
     setSelectedTag(params.get('tag') || '');
   }, [location.search]);
 
-  // 하이라이트 함수 추가
-  // ! 별도로 분리
-  const highlightText = (text: string, highlight: string) => {
-    if (!text) return null;
-    if (!highlight.trim()) {
-      return <span>{text}</span>;
-    }
-    const regex = new RegExp(`(${highlight})`, 'gi');
-    const parts = text.split(regex);
-    return (
-      <span>
-        {parts.map((part, i) =>
-          regex.test(part) ? <mark key={i}>{part}</mark> : <span key={i}>{part}</span>,
-        )}
-      </span>
-    );
-  };
-
   const handleClickTag = (tag: string) => {
     setSelectedTag(tag);
     updateURL();
@@ -441,7 +423,6 @@ export const PostsManager = () => {
               <PostTable
                 posts={posts}
                 selectedTag={selectedTag}
-                highlightText={highlightText}
                 onClickTag={handleClickTag}
                 onClickAuthor={openUserModal}
                 onClickPostComment={openPostDetail}
@@ -591,7 +572,6 @@ export const PostsManager = () => {
           isOpen={showPostDetailDialog}
           onClickOpenChange={setShowPostDetailDialog}
           selectedPost={selectedPost}
-          highlightText={highlightText}
           onClickAdd={handleClickAddComment}
           onClickLike={likeComment}
           onClickEdit={handleClickEditComment}
