@@ -6,25 +6,25 @@ import { highlightText } from '@/shared/utils';
 import { DeletePost } from '@/feature/deletePost';
 import { useDialogActions, usePostActions } from '@/shared/model/store';
 import { OpenPostDetail } from '@/feature/openPostDetail';
-
-const DEFAULT_BUTTON_PROPS: any = {
-  variant: 'ghost',
-  size: 'sm',
-};
+import { OpenUserDetail } from '@/feature/openUserDetail';
 
 interface PostTableProps {
   posts: any[];
   selectedTag: string;
   onClickTag: (tag: string) => void;
-  onClickAuthor: (author: any) => void;
 }
 
-export const PostTable = ({ posts, selectedTag, onClickTag, onClickAuthor }: PostTableProps) => {
+export const PostTable = ({ posts, selectedTag, onClickTag }: PostTableProps) => {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
 
   const { setSelectedPost } = usePostActions();
   const { setShowEditDialog } = useDialogActions();
+
+  const handleClickEdit = (post: any) => {
+    setSelectedPost(post);
+    setShowEditDialog(true);
+  };
 
   return (
     <Table>
@@ -64,17 +64,7 @@ export const PostTable = ({ posts, selectedTag, onClickTag, onClickAuthor }: Pos
               </div>
             </TableCell>
             <TableCell>
-              <div
-                className='flex items-center space-x-2 cursor-pointer'
-                onClick={() => onClickAuthor(post.author)}
-              >
-                <img
-                  src={post.author?.image}
-                  alt={post.author?.username}
-                  className='w-8 h-8 rounded-full'
-                />
-                <span>{post.author?.username}</span>
-              </div>
+              <OpenUserDetail post={post} />
             </TableCell>
             <TableCell>
               <div className='flex items-center gap-2'>
@@ -88,11 +78,9 @@ export const PostTable = ({ posts, selectedTag, onClickTag, onClickAuthor }: Pos
               <div className='flex items-center gap-2'>
                 <OpenPostDetail post={post} />
                 <Button
-                  {...DEFAULT_BUTTON_PROPS}
-                  onClick={() => {
-                    setSelectedPost(post);
-                    setShowEditDialog(true);
-                  }}
+                  variant='ghost'
+                  size='sm'
+                  onClick={handleClickEdit}
                 >
                   <Edit2 className='w-4 h-4' />
                 </Button>

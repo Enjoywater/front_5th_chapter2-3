@@ -19,7 +19,6 @@ import {
   useDialogActions,
   useShowPostDetailDialog,
   useNewComment,
-  useUserActions,
 } from '@/shared/model/store';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
@@ -75,10 +74,7 @@ export const PostsManager = () => {
     setShowAddCommentDialog,
     setShowEditCommentDialog,
     setShowPostDetailDialog,
-    setShowUserDialog,
   } = useDialogActions();
-
-  const { setSelectedUser } = useUserActions();
 
   const fetchPosts = async () => {
     setLoading(true);
@@ -118,18 +114,6 @@ export const PostsManager = () => {
       });
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
-    }
-  };
-
-  // 사용자 모달 열기
-  const openUserModal = async (user) => {
-    try {
-      const response = await fetch(`/api/users/${user.id}`);
-      const userData = await response.json();
-      setSelectedUser(userData);
-      setShowUserDialog(true);
-    } catch (error) {
-      console.error('사용자 정보 가져오기 오류:', error);
     }
   };
 
@@ -194,7 +178,6 @@ export const PostsManager = () => {
                 posts={posts}
                 selectedTag={selectedTag}
                 onClickTag={handleClickTag}
-                onClickAuthor={openUserModal}
               />
             )}
 
