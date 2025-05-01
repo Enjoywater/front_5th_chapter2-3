@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { Plus, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -21,6 +21,7 @@ import {
   useShowPostDetailDialog,
   useNewComment,
   useUserActions,
+  useSearchQuery,
 } from '@/shared/model/store';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
@@ -39,8 +40,11 @@ import { SortByValue } from '@/feature/sortByValue';
 import { SortByOrder } from '@/feature/sortByOrder';
 import { Pagination } from '@/feature/pagination';
 import { UserInfo } from '@/feature/userInfo';
+import { useQueryParams } from '@/shared/hooks/useQueryParams';
 
 export const PostsManager = () => {
+  useQueryParams();
+
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -56,8 +60,9 @@ export const PostsManager = () => {
   const limit = useLimit();
   const sortBy = useSortBy();
   const sortOrder = useSortOrder();
+  const searchQuery = useSearchQuery();
 
-  const { setSkip, setLimit, setSortBy, setSortOrder } = usePostFilterActions();
+  const { setSearchQuery } = usePostFilterActions();
 
   const selectedTag = useSelectedTag();
 
@@ -80,20 +85,6 @@ export const PostsManager = () => {
   } = useDialogActions();
 
   const { setSelectedUser } = useUserActions();
-
-  const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
-
-  // URL 업데이트 함수
-  const updateURL = () => {
-    const params = new URLSearchParams();
-    if (skip) params.set('skip', skip.toString());
-    if (limit) params.set('limit', limit.toString());
-    if (searchQuery) params.set('search', searchQuery);
-    if (sortBy) params.set('sortBy', sortBy);
-    if (sortOrder) params.set('sortOrder', sortOrder);
-    if (selectedTag) params.set('tag', selectedTag);
-    navigate(`?${params.toString()}`);
-  };
 
   // 게시물 가져오기
   const fetchPosts = () => {
@@ -270,22 +261,14 @@ export const PostsManager = () => {
     } else {
       fetchPosts();
     }
-    updateURL();
   }, [skip, limit, sortBy, sortOrder, selectedTag]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    setSkip(parseInt(params.get('skip') || '0'));
-    setLimit(parseInt(params.get('limit') || '10'));
-    setSearchQuery(params.get('search') || '');
-    setSortBy(params.get('sortBy') || '');
-    setSortOrder(params.get('sortOrder') || 'asc');
-    setSelectedTag(params.get('tag') || '');
-  }, [location.search]);
 
   const handleClickTag = (tag: string) => {
     setSelectedTag(tag);
-    updateURL();
+
+    if (selectedTag) queryParams.set('tag', selectedTag);
+
+    navigate(`?${queryParams.toString()}`);
   };
 
   const handleClickEdit = (post: any) => {
