@@ -30,7 +30,6 @@ import { PostTable } from './PostTable';
 import { AddPostDialog } from '@/widgets/addPostDialog';
 import { EditPostDialog } from '@/widgets/editPostDialog';
 import { AddCommentDialog } from '@/widgets/addCommentDialog';
-import { UpdateComment } from '@/feature/editComment';
 import { SortByTag } from '@/feature/sortByTag';
 import { SortByValue } from '@/feature/sortByValue';
 import { SortByOrder } from '@/feature/sortByOrder';
@@ -39,6 +38,7 @@ import { UserInfo } from '@/feature/userInfo';
 import { useQueryParams } from '@/shared/hooks/useQueryParams';
 import { SearchPost } from '@/feature/searchPost';
 import { fetchPostsByTag, fetchPostsWithUsers } from '@/entities/post';
+import { EditCommentDialog } from '@/widgets/editCommentDialog';
 
 export const PostsManager = () => {
   useQueryParams();
@@ -189,7 +189,7 @@ export const PostsManager = () => {
         <EditPostDialog />
 
         <AddCommentDialog />
-        <UpdateComment />
+        <EditCommentDialog />
 
         {/* 게시물 상세 보기 대화상자 */}
         <PostDetail

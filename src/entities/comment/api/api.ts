@@ -13,3 +13,8 @@ export const addComment = (newComment: any) =>
   axios.post('/api/comments/add', {
     newComment,
   });
+
+export const updateComment = ({ id, body }: { id: string; body: string }) =>
+  axios.put(`/api/comments/${id}`, {
+    body,
+  });
