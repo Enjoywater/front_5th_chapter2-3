@@ -1,66 +1,14 @@
-import {
-  useLimit,
-  usePostActions,
-  usePostFilterActions,
-  useSearchQuery,
-  useSkip,
-} from '@/shared/model/store';
+import { usePostFilterActions, useSearchQuery } from '@/shared/model/store';
 import { Input } from '@/shared/ui';
 import { Search } from 'lucide-react';
+import { useGetSearchPost } from '../model';
 
 export const SearchPost = () => {
-  const skip = useSkip();
-  const limit = useLimit();
   const searchQuery = useSearchQuery();
+
   const { setSearchQuery } = usePostFilterActions();
 
-  const { setPosts, setTotal, setLoading } = usePostActions();
-
-  const fetchPosts = () => {
-    setLoading(true);
-    let postsData;
-    let usersData;
-
-    fetch(`/api/posts?limit=${limit}&skip=${skip}`)
-      .then((response) => response.json())
-      .then((data) => {
-        postsData = data;
-        return fetch('/api/users?limit=0&select=username,image');
-      })
-      .then((response) => response.json())
-      .then((users) => {
-        usersData = users.users;
-        const postsWithUsers = postsData.posts.map((post) => ({
-          ...post,
-          author: usersData.find((user) => user.id === post.userId),
-        }));
-        setPosts(postsWithUsers);
-        setTotal(postsData.total);
-      })
-      .catch((error) => {
-        console.error('게시물 가져오기 오류:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  const searchPosts = async () => {
-    if (!searchQuery) {
-      fetchPosts();
-      return;
-    }
-    setLoading(true);
-    try {
-      const response = await fetch(`/api/posts/search?q=${searchQuery}`);
-      const data = await response.json();
-      setPosts(data.posts);
-      setTotal(data.total);
-    } catch (error) {
-      console.error('게시물 검색 오류:', error);
-    }
-    setLoading(false);
-  };
+  const { getSearchPosts } = useGetSearchPost();
 
   return (
     <div className='flex-1'>
@@ -71,7 +19,7 @@ export const SearchPost = () => {
           className='pl-8'
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && searchPosts()}
+          onKeyDown={(e) => e.key === 'Enter' && getSearchPosts()}
         />
       </div>
     </div>
