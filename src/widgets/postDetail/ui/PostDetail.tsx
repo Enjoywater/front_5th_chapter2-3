@@ -1,16 +1,15 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
-import { highlightText } from '@/shared/utils';
-
+import { DeleteComment } from '@/feature/deleteComment';
+import { LikeComment } from '@/feature/likeComment';
+import { OpenAddComment } from '@/feature/openAddComment';
+import { OpenEditComment } from '@/feature/openEditComment';
 import {
   useComments,
   useDialogActions,
   useSelectedPost,
   useShowPostDetailDialog,
 } from '@/shared/model/store';
-import { LikeComment } from '@/feature/likeComment';
-import { OpenAddComment } from '@/feature/openAddComment';
-import { OpenEditComment } from '@/feature/openEditComment';
-import { DeleteComment } from '@/feature/deleteComment';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
+import { highlightText } from '@/shared/utils';
 
 export const PostDetail = () => {
   const comments = useComments();

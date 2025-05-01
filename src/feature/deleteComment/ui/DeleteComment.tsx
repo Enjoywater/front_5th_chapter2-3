@@ -1,7 +1,8 @@
+import { Trash2 } from 'lucide-react';
+
 import { deleteComment } from '@/entities/comment';
 import { useCommentActions, useComments } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
-import { Trash2 } from 'lucide-react';
 
 export const DeleteComment = ({ comment, postId }: { comment: any; postId: number }) => {
   const comments = useComments();

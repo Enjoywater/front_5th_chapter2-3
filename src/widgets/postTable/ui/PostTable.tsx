@@ -1,10 +1,9 @@
 import { Edit2, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '@/shared/ui';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
-import { highlightText } from '@/shared/utils';
 import { DeletePost } from '@/feature/deletePost';
+import { OpenPostDetail } from '@/feature/openPostDetail';
+import { OpenUserDetail } from '@/feature/openUserDetail';
 import {
   useDialogActions,
   usePostActions,
@@ -12,8 +11,9 @@ import {
   useSelectedTag,
   useTagActions,
 } from '@/shared/model/store';
-import { OpenPostDetail } from '@/feature/openPostDetail';
-import { OpenUserDetail } from '@/feature/openUserDetail';
+import { Button } from '@/shared/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
+import { highlightText } from '@/shared/utils';
 
 export const PostTable = () => {
   const navigate = useNavigate();

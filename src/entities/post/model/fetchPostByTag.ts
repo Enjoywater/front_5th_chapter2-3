@@ -1,4 +1,5 @@
 import { getUsers } from '@/entities/user';
+
 import { getPostWithTags } from '../api';
 
 export const fetchPostsByTag = async (tag: string) => {

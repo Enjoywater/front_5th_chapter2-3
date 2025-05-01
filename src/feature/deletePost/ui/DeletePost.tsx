@@ -1,7 +1,8 @@
 import { Trash2 } from 'lucide-react';
+
 import { deletePost } from '@/entities/post';
-import { Button } from '@/shared/ui';
 import { usePostActions, usePosts } from '@/shared/model/store';
+import { Button } from '@/shared/ui';
 
 export const DeletePost = ({ id }: { id: number }) => {
   const posts = usePosts();

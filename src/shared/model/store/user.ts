@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+
 import { SelectedUser } from '../types';
 
 interface UserData {

@@ -1,3 +1,5 @@
+import { MessageSquare } from 'lucide-react';
+
 import { getComments } from '@/entities/comment';
 import {
   useCommentActions,
@@ -6,7 +8,6 @@ import {
   usePostActions,
 } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
-import { MessageSquare } from 'lucide-react';
 
 export const OpenPostDetail = ({ post }: { post: any }) => {
   const comments = useComments();

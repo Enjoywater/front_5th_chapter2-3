@@ -1,4 +1,5 @@
 import { getUsers } from '@/entities/user';
+
 import { getPosts } from '../api';
 
 export const fetchPostsWithUsers = async ({ limit, skip }: { limit: number; skip: number }) => {

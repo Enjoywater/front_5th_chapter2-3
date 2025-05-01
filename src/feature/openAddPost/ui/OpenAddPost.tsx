@@ -1,6 +1,7 @@
+import { Plus } from 'lucide-react';
+
 import { useDialogActions } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
-import { Plus } from 'lucide-react';
 
 export const OpenAddPost = () => {
   const { setShowAddDialog } = useDialogActions();

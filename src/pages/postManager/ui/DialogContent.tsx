@@ -1,8 +1,8 @@
-import { AddPostDialog } from '@/widgets/addPostDialog';
-import { EditPostDialog } from '@/widgets/editPostDialog';
-import { AddCommentDialog } from '@/widgets/addCommentDialog';
 import { UserInfo } from '@/feature/userInfo';
+import { AddCommentDialog } from '@/widgets/addCommentDialog';
+import { AddPostDialog } from '@/widgets/addPostDialog';
 import { EditCommentDialog } from '@/widgets/editCommentDialog';
+import { EditPostDialog } from '@/widgets/editPostDialog';
 import { PostDetail } from '@/widgets/postDetail';
 
 export const DialogContent = () => {

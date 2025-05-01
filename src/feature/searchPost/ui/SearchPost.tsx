@@ -1,6 +1,8 @@
+import { Search } from 'lucide-react';
+
 import { usePostFilterActions, useSearchQuery } from '@/shared/model/store';
 import { Input } from '@/shared/ui';
-import { Search } from 'lucide-react';
+
 import { useGetSearchPost } from '../model';
 
 export const SearchPost = () => {

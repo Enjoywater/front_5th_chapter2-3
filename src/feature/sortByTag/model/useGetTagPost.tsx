@@ -1,6 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+
 import { fetchPostsByTag, fetchPostsWithUsers } from '@/entities/post';
 import { useLimit, usePostActions, useSkip, useTagActions } from '@/shared/model/store';
-import { useNavigate } from 'react-router-dom';
 
 export const useGetTagPost = () => {
   const navigate = useNavigate();

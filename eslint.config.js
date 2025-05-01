@@ -23,6 +23,7 @@ export default tseslint.config(
       'boundaries': boundaries,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      '@typescript-eslint': tseslint.plugin,
     },
     settings: {
       'import/resolver': {
@@ -81,6 +82,9 @@ export default tseslint.config(
           argsIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           ignoreRestSiblings: true,
+          ignoreDeclarationWithTypeAnnotation: true,
+          varsIgnorePattern: '(^[A-Z]|^interface$|^type$)',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
     },

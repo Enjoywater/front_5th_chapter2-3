@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
-
-import { Pagination } from '@/feature/pagination';
-import { useQueryParams } from '@/shared/hooks/useQueryParams';
-import { PostTable } from '@/widgets/postTable';
-import { usePosts } from '@/feature/posts';
-import { DialogContent } from './DialogContent';
 import { OpenAddPost } from '@/feature/openAddPost';
+import { Pagination } from '@/feature/pagination';
+import { usePosts } from '@/feature/posts';
+import { useQueryParams } from '@/shared/hooks/useQueryParams';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
+import { PostTable } from '@/widgets/postTable';
+
+import { DialogContent } from './DialogContent';
 import { FilterContent } from './FilterContent';
 
 export const PostsManager = () => {

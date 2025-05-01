@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { fetchPostsByTag, fetchPostsWithUsers } from '@/entities/post';
 import { getPostTags } from '@/entities/tag';
 import {
@@ -10,7 +12,6 @@ import {
   useSortOrder,
   useTagActions,
 } from '@/shared/model/store';
-import { useEffect } from 'react';
 
 export const usePosts = () => {
   const loading = useLoading();

@@ -1,5 +1,6 @@
 import { useSelectedTag, useTags } from '@/shared/model/store';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
+
 import { useGetTagPost } from '../model';
 
 export const SortByTag = () => {

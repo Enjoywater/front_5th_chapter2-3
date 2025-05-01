@@ -1,6 +1,7 @@
+import { Edit2 } from 'lucide-react';
+
 import { useCommentActions, useDialogActions } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
-import { Edit2 } from 'lucide-react';
 
 export const OpenEditComment = ({ comment }: { comment: any }) => {
   const { setSelectedComment } = useCommentActions();
