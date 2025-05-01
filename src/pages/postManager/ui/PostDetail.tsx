@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
 
 import { DetailComments } from './DetailComments';

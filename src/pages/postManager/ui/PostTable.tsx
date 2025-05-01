@@ -1,7 +1,7 @@
 import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
 
-import { Button } from '@/shared/components';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/components';
+import { Button } from '@/shared/ui';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
 
 const DEFAULT_BUTTON_PROPS: any = {

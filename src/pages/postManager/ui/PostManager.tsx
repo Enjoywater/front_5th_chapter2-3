@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { Plus, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components';
-import { Button } from '@/shared/components';
-import { Textarea } from '@/shared/components';
-import { Input } from '@/shared/components';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/components';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/components';
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
+import { Button } from '@/shared/ui';
+import { Textarea } from '@/shared/ui';
+import { Input } from '@/shared/ui';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
 
 import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
