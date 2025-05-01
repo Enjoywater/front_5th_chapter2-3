@@ -40,6 +40,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
 import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
 
+import { AddPost } from '@/feature/addPost';
+import { EditPost } from '@/feature/editPost';
+
 export const PostsManager = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -190,41 +193,6 @@ export const PostsManager = () => {
     setLoading(false);
   };
 
-  // 게시물 추가
-  const addPost = async () => {
-    try {
-      const response = await fetch('/api/posts/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newPost),
-      });
-      const data = await response.json();
-      setPosts([data, ...posts]);
-      setShowAddDialog(false);
-      setNewPost({ title: '', body: '', userId: 1 });
-    } catch (error) {
-      console.error('게시물 추가 오류:', error);
-    }
-  };
-
-  // 게시물 업데이트
-  const updatePost = async () => {
-    try {
-      if (!selectedPost) return;
-
-      const response = await fetch(`/api/posts/${selectedPost.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(selectedPost),
-      });
-      const data = await response.json();
-      setPosts(posts.map((post) => (post.id === data.id ? data : post)));
-      setShowEditDialog(false);
-    } catch (error) {
-      console.error('게시물 업데이트 오류:', error);
-    }
-  };
-
   // 게시물 삭제
   const deletePost = async (id) => {
     try {
@@ -243,6 +211,7 @@ export const PostsManager = () => {
     try {
       const response = await fetch(`/api/comments/post/${postId}`);
       const data = await response.json();
+      // setComments({ ...comments, [postId]: data.comments });
       setComments((prev) => ({ ...prev, [postId]: data.comments }));
     } catch (error) {
       console.error('댓글 가져오기 오류:', error);
@@ -519,63 +488,8 @@ export const PostsManager = () => {
           </div>
         </CardContent>
 
-        {/* 게시물 추가 대화상자 */}
-        <Dialog
-          open={showAddDialog}
-          onOpenChange={setShowAddDialog}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>새 게시물 추가</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <Input
-                placeholder='제목'
-                value={newPost.title}
-                onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-              />
-              <Textarea
-                rows={30}
-                placeholder='내용'
-                value={newPost.body}
-                onChange={(e) => setNewPost({ ...newPost, body: e.target.value })}
-              />
-              <Input
-                type='number'
-                placeholder='사용자 ID'
-                value={newPost.userId}
-                onChange={(e) => setNewPost({ ...newPost, userId: Number(e.target.value) })}
-              />
-              <Button onClick={addPost}>게시물 추가</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-
-        {/* 게시물 수정 대화상자 */}
-        <Dialog
-          open={showEditDialog}
-          onOpenChange={setShowEditDialog}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>게시물 수정</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <Input
-                placeholder='제목'
-                value={selectedPost?.title || ''}
-                onChange={(e) => setSelectedPost({ ...selectedPost, title: e.target.value })}
-              />
-              <Textarea
-                rows={15}
-                placeholder='내용'
-                value={selectedPost?.body || ''}
-                onChange={(e) => setSelectedPost({ ...selectedPost, body: e.target.value })}
-              />
-              <Button onClick={updatePost}>게시물 업데이트</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <AddPost />
+        <EditPost />
 
         {/* 댓글 추가 대화상자 */}
         <Dialog
