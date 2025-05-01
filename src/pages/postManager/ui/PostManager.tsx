@@ -11,7 +11,6 @@ import {
   usePostActions,
   usePostFilterActions,
   usePosts,
-  useSelectedComment,
   useSelectedPost,
   useSelectedTag,
   useSkip,
@@ -21,14 +20,12 @@ import {
   useTags,
   useTotal,
   useDialogActions,
-  useShowEditCommentDialog,
   useShowPostDetailDialog,
   useShowUserDialog,
   useNewComment,
 } from '@/shared/model/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { Button } from '@/shared/ui';
-import { Textarea } from '@/shared/ui';
 import { Input } from '@/shared/ui';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
@@ -39,6 +36,7 @@ import { PostTable } from './PostTable';
 import { AddPost } from '@/feature/addPost';
 import { EditPost } from '@/feature/editPost';
 import { AddComment } from '@/feature/addComment';
+import { UpdateComment } from '@/feature/editComment';
 
 export const PostsManager = () => {
   const navigate = useNavigate();
@@ -66,12 +64,10 @@ export const PostsManager = () => {
   const { setTags, setSelectedTag } = useTagActions();
 
   const comments = useComments();
-  const selectedComment = useSelectedComment();
   const newComment = useNewComment();
 
   const { setComments, setSelectedComment, setNewComment } = useCommentActions();
 
-  const showEditCommentDialog = useShowEditCommentDialog();
   const showPostDetailDialog = useShowPostDetailDialog();
   const showUserDialog = useShowUserDialog();
 
@@ -207,28 +203,6 @@ export const PostsManager = () => {
       setComments({ ...comments, [postId]: data.comments });
     } catch (error) {
       console.error('댓글 가져오기 오류:', error);
-    }
-  };
-
-  // 댓글 업데이트
-  const updateComment = async () => {
-    try {
-      const response = await fetch(`/api/comments/${selectedComment.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ body: selectedComment.body }),
-      });
-      const data = await response.json();
-      setComments({
-        ...comments,
-        [data.postId]: comments[data.postId].map((comment) =>
-          comment.id === data.id ? data : comment,
-        ),
-      });
-
-      setShowEditCommentDialog(false);
-    } catch (error) {
-      console.error('댓글 업데이트 오류:', error);
     }
   };
 
@@ -471,26 +445,7 @@ export const PostsManager = () => {
         <EditPost />
 
         <AddComment />
-
-        {/* 댓글 수정 대화상자 */}
-        <Dialog
-          open={showEditCommentDialog}
-          onOpenChange={setShowEditCommentDialog}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>댓글 수정</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <Textarea
-                placeholder='댓글 내용'
-                value={selectedComment?.body || ''}
-                onChange={(e) => setSelectedComment({ ...selectedComment, body: e.target.value })}
-              />
-              <Button onClick={updateComment}>댓글 업데이트</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <UpdateComment />
 
         {/* 게시물 상세 보기 대화상자 */}
         <PostDetail
