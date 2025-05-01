@@ -4,11 +4,16 @@ import { Plus, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
+  useLimit,
   useLoading,
   useNewPost,
   usePostActions,
+  usePostFilterActions,
   usePosts,
   useSelectedPost,
+  useSkip,
+  useSortBy,
+  useSortOrder,
   useTotal,
 } from '@/shared/model/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
@@ -35,12 +40,15 @@ export const PostsManager = () => {
 
   const { setPosts, setTotal, setSelectedPost, setLoading, setNewPost } = usePostActions();
 
+  const skip = useSkip();
+  const limit = useLimit();
+  const sortBy = useSortBy();
+  const sortOrder = useSortOrder();
+
+  const { setSkip, setLimit, setSortBy, setSortOrder } = usePostFilterActions();
+
   // 상태 관리
-  const [skip, setSkip] = useState(parseInt(queryParams.get('skip') || '0'));
-  const [limit, setLimit] = useState(parseInt(queryParams.get('limit') || '10'));
-  const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || '');
-  const [sortBy, setSortBy] = useState(queryParams.get('sortBy') || '');
-  const [sortOrder, setSortOrder] = useState(queryParams.get('sortOrder') || 'asc');
+  const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [tags, setTags] = useState([]);
