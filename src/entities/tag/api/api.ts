@@ -1,3 +1,3 @@
-import axios from 'axios';
+import { axiosInstance } from '@/shared/lib/axios';
 
-export const getPostTags = async () => await axios.get('/api/posts/tags');
+export const getPostTags = async () => await axiosInstance.get('/posts/tags');

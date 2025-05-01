@@ -1,5 +1,5 @@
-import axios from 'axios';
+import { axiosInstance } from '@/shared/lib/axios';
 
-export const getUsers = () => axios.get('/api/users?limit=0&select=username,image');
+export const getUsers = () => axiosInstance.get('/users?limit=0&select=username,image');
 
-export const getUser = (id: string) => axios.get(`/api/users/${id}`);
+export const getUser = (id: string) => axiosInstance.get(`/users/${id}`);

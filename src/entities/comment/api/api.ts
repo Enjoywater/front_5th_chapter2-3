@@ -1,20 +1,20 @@
-import axios from 'axios';
+import { axiosInstance } from '@/shared/lib/axios';
 
-export const getComments = (postId: string) => axios.get(`/api/comments/post/${postId}`);
+export const getComments = (postId: string) => axiosInstance.get(`/comments/post/${postId}`);
 
-export const deleteComment = (id: string) => axios.delete(`/api/comments/${id}`);
+export const deleteComment = (id: string) => axiosInstance.delete(`/comments/${id}`);
 
 export const likeComment = ({ id, likes }: { id: number; likes: number }) =>
-  axios.patch(`/api/comments/${id}`, {
+  axiosInstance.patch(`/comments/${id}`, {
     likes,
   });
 
 export const addComment = (newComment: any) =>
-  axios.post('/api/comments/add', {
+  axiosInstance.post('/comments/add', {
     newComment,
   });
 
 export const updateComment = ({ id, body }: { id: string; body: string }) =>
-  axios.put(`/api/comments/${id}`, {
+  axiosInstance.put(`/comments/${id}`, {
     body,
   });
