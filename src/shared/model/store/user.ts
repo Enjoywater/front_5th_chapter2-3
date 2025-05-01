@@ -1,13 +1,13 @@
 import { create } from 'zustand';
-import type { User } from '../types';
+import { SelectedUser } from '../types';
 
 interface UserData {
-  selectedUser: User | null;
+  selectedUser: SelectedUser | null;
 }
 
 interface UserActions {
   actions: {
-    setSelectedUser: (user: User | null) => void;
+    setSelectedUser: (user: SelectedUser | null) => void;
   };
 }
 
@@ -21,7 +21,7 @@ export const useUserStore = create<UserState>((set) => ({
   ...initialState,
 
   actions: {
-    setSelectedUser: (selectedUser: User | null) => set({ selectedUser }),
+    setSelectedUser: (selectedUser: SelectedUser | null) => set({ selectedUser }),
   },
 }));
 

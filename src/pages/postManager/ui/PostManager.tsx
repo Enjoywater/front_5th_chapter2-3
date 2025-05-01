@@ -17,16 +17,15 @@ import {
   useSortBy,
   useSortOrder,
   useTagActions,
-  useTotal,
   useDialogActions,
   useShowPostDetailDialog,
-  useShowUserDialog,
   useNewComment,
+  useUserActions,
 } from '@/shared/model/store';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { Button } from '@/shared/ui';
 import { Input } from '@/shared/ui';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
 
 import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
@@ -39,6 +38,7 @@ import { SortByTag } from '@/feature/sortByTag';
 import { SortByValue } from '@/feature/sortByValue';
 import { SortByOrder } from '@/feature/sortByOrder';
 import { Pagination } from '@/feature/pagination';
+import { UserInfo } from '@/feature/userInfo';
 
 export const PostsManager = () => {
   const navigate = useNavigate();
@@ -69,7 +69,6 @@ export const PostsManager = () => {
   const { setComments, setSelectedComment, setNewComment } = useCommentActions();
 
   const showPostDetailDialog = useShowPostDetailDialog();
-  const showUserDialog = useShowUserDialog();
 
   const {
     setShowAddDialog,
@@ -80,8 +79,9 @@ export const PostsManager = () => {
     setShowUserDialog,
   } = useDialogActions();
 
+  const { setSelectedUser } = useUserActions();
+
   const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
-  const [selectedUser, setSelectedUser] = useState(null);
 
   // URL 업데이트 함수
   const updateURL = () => {
@@ -375,47 +375,7 @@ export const PostsManager = () => {
           onClickDelete={deleteComment}
         />
 
-        {/* 사용자 모달 */}
-        <Dialog
-          open={showUserDialog}
-          onOpenChange={setShowUserDialog}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>사용자 정보</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <img
-                src={selectedUser?.image}
-                alt={selectedUser?.username}
-                className='w-24 h-24 rounded-full mx-auto'
-              />
-              <h3 className='text-xl font-semibold text-center'>{selectedUser?.username}</h3>
-              <div className='space-y-2'>
-                <p>
-                  <strong>이름:</strong> {selectedUser?.firstName} {selectedUser?.lastName}
-                </p>
-                <p>
-                  <strong>나이:</strong> {selectedUser?.age}
-                </p>
-                <p>
-                  <strong>이메일:</strong> {selectedUser?.email}
-                </p>
-                <p>
-                  <strong>전화번호:</strong> {selectedUser?.phone}
-                </p>
-                <p>
-                  <strong>주소:</strong> {selectedUser?.address?.address},{' '}
-                  {selectedUser?.address?.city}, {selectedUser?.address?.state}
-                </p>
-                <p>
-                  <strong>직장:</strong> {selectedUser?.company?.name} -{' '}
-                  {selectedUser?.company?.title}
-                </p>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <UserInfo />
       </Card>
     </main>
   );
