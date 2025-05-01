@@ -17,7 +17,6 @@ import {
   useSortBy,
   useSortOrder,
   useTagActions,
-  useTags,
   useTotal,
   useDialogActions,
   useShowPostDetailDialog,
@@ -37,6 +36,9 @@ import { AddPost } from '@/feature/addPost';
 import { EditPost } from '@/feature/editPost';
 import { AddComment } from '@/feature/addComment';
 import { UpdateComment } from '@/feature/editComment';
+import { SortByTag } from '@/feature/sortByTag';
+import { SortByValue } from '@/feature/sortByValue';
+import { SortByOrder } from '@/feature/sortByOrder';
 
 export const PostsManager = () => {
   const navigate = useNavigate();
@@ -58,7 +60,6 @@ export const PostsManager = () => {
 
   const { setSkip, setLimit, setSortBy, setSortOrder } = usePostFilterActions();
 
-  const tags = useTags();
   const selectedTag = useSelectedTag();
 
   const { setTags, setSelectedTag } = useTagActions();
@@ -230,12 +231,6 @@ export const PostsManager = () => {
         body: JSON.stringify({ likes: comments[postId].find((c) => c.id === id).likes + 1 }),
       });
       const data = await response.json();
-      // setComments((prev) => ({
-      //   ...prev,
-      //   [postId]: prev[postId].map((comment) =>
-      //     comment.id === data.id ? { ...data, likes: comment.likes + 1 } : comment,
-      //   ),
-      // }));
       setComments({
         ...comments,
         [postId]: comments[postId].map((comment) =>
@@ -338,55 +333,10 @@ export const PostsManager = () => {
                   />
                 </div>
               </div>
-              <Select
-                value={selectedTag}
-                onValueChange={(value) => {
-                  setSelectedTag(value);
-                  fetchPostsByTag(value);
-                  updateURL();
-                }}
-              >
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='태그 선택' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='all'>모든 태그</SelectItem>
-                  {tags.map((tag) => (
-                    <SelectItem
-                      key={tag.url}
-                      value={tag.slug}
-                    >
-                      {tag.slug}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Select
-                value={sortBy}
-                onValueChange={setSortBy}
-              >
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='정렬 기준' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='none'>없음</SelectItem>
-                  <SelectItem value='id'>ID</SelectItem>
-                  <SelectItem value='title'>제목</SelectItem>
-                  <SelectItem value='reactions'>반응</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select
-                value={sortOrder}
-                onValueChange={setSortOrder}
-              >
-                <SelectTrigger className='w-[180px]'>
-                  <SelectValue placeholder='정렬 순서' />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value='asc'>오름차순</SelectItem>
-                  <SelectItem value='desc'>내림차순</SelectItem>
-                </SelectContent>
-              </Select>
+
+              <SortByTag />
+              <SortByValue />
+              <SortByOrder />
             </div>
 
             {/* 게시물 테이블 */}
