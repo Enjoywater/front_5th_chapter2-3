@@ -11,9 +11,9 @@ import { Input, Textarea, Button } from '@/shared/ui';
 export function AddPost() {
   const posts = usePosts();
   const newPost = useNewPost();
-  const isOpen = useShowAddDialog();
-
   const { setNewPost, setPosts } = usePostActions();
+
+  const showAddDialog = useShowAddDialog();
   const { setShowAddDialog } = useDialogActions();
 
   const addPost = async () => {
@@ -36,7 +36,7 @@ export function AddPost() {
 
   return (
     <Dialog
-      open={isOpen}
+      open={showAddDialog}
       onOpenChange={setShowAddDialog}
     >
       <DialogContent>

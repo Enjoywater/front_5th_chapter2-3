@@ -52,6 +52,7 @@ export interface Comment {
   postId: number;
   userId: number;
   user?: User;
+  likes?: number;
 }
 
 export interface NewComment {

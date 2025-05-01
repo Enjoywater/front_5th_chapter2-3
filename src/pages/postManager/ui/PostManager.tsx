@@ -8,8 +8,6 @@ import {
   useComments,
   useLimit,
   useLoading,
-  useNewComment,
-  useNewPost,
   usePostActions,
   usePostFilterActions,
   usePosts,
@@ -23,12 +21,10 @@ import {
   useTags,
   useTotal,
   useDialogActions,
-  useShowAddCommentDialog,
-  useShowAddDialog,
   useShowEditCommentDialog,
-  useShowEditDialog,
   useShowPostDetailDialog,
   useShowUserDialog,
+  useNewComment,
 } from '@/shared/model/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { Button } from '@/shared/ui';
@@ -42,6 +38,7 @@ import { PostTable } from './PostTable';
 
 import { AddPost } from '@/feature/addPost';
 import { EditPost } from '@/feature/editPost';
+import { AddComment } from '@/feature/addComment';
 
 export const PostsManager = () => {
   const navigate = useNavigate();
@@ -53,9 +50,8 @@ export const PostsManager = () => {
   const total = useTotal();
   const selectedPost = useSelectedPost();
   const loading = useLoading();
-  const newPost = useNewPost();
 
-  const { setPosts, setTotal, setSelectedPost, setLoading, setNewPost } = usePostActions();
+  const { setPosts, setTotal, setSelectedPost, setLoading } = usePostActions();
 
   const skip = useSkip();
   const limit = useLimit();
@@ -75,9 +71,6 @@ export const PostsManager = () => {
 
   const { setComments, setSelectedComment, setNewComment } = useCommentActions();
 
-  const showAddDialog = useShowAddDialog();
-  const showEditDialog = useShowEditDialog();
-  const showAddCommentDialog = useShowAddCommentDialog();
   const showEditCommentDialog = useShowEditCommentDialog();
   const showPostDetailDialog = useShowPostDetailDialog();
   const showUserDialog = useShowUserDialog();
@@ -211,30 +204,9 @@ export const PostsManager = () => {
     try {
       const response = await fetch(`/api/comments/post/${postId}`);
       const data = await response.json();
-      // setComments({ ...comments, [postId]: data.comments });
-      setComments((prev) => ({ ...prev, [postId]: data.comments }));
+      setComments({ ...comments, [postId]: data.comments });
     } catch (error) {
       console.error('댓글 가져오기 오류:', error);
-    }
-  };
-
-  // 댓글 추가
-  const addComment = async () => {
-    try {
-      const response = await fetch('/api/comments/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newComment),
-      });
-      const data = await response.json();
-      setComments((prev) => ({
-        ...prev,
-        [data.postId]: [...(prev[data.postId] || []), data],
-      }));
-      setShowAddCommentDialog(false);
-      setNewComment({ body: '', postId: null, userId: 1 });
-    } catch (error) {
-      console.error('댓글 추가 오류:', error);
     }
   };
 
@@ -247,12 +219,13 @@ export const PostsManager = () => {
         body: JSON.stringify({ body: selectedComment.body }),
       });
       const data = await response.json();
-      setComments((prev) => ({
-        ...prev,
-        [data.postId]: prev[data.postId].map((comment) =>
+      setComments({
+        ...comments,
+        [data.postId]: comments[data.postId].map((comment) =>
           comment.id === data.id ? data : comment,
         ),
-      }));
+      });
+
       setShowEditCommentDialog(false);
     } catch (error) {
       console.error('댓글 업데이트 오류:', error);
@@ -265,10 +238,10 @@ export const PostsManager = () => {
       await fetch(`/api/comments/${id}`, {
         method: 'DELETE',
       });
-      setComments((prev) => ({
-        ...prev,
-        [postId]: prev[postId].filter((comment) => comment.id !== id),
-      }));
+      setComments({
+        ...comments,
+        [postId]: comments[postId].filter((comment) => comment.id !== id),
+      });
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
     }
@@ -283,12 +256,18 @@ export const PostsManager = () => {
         body: JSON.stringify({ likes: comments[postId].find((c) => c.id === id).likes + 1 }),
       });
       const data = await response.json();
-      setComments((prev) => ({
-        ...prev,
-        [postId]: prev[postId].map((comment) =>
+      // setComments((prev) => ({
+      //   ...prev,
+      //   [postId]: prev[postId].map((comment) =>
+      //     comment.id === data.id ? { ...data, likes: comment.likes + 1 } : comment,
+      //   ),
+      // }));
+      setComments({
+        ...comments,
+        [postId]: comments[postId].map((comment) =>
           comment.id === data.id ? { ...data, likes: comment.likes + 1 } : comment,
         ),
-      }));
+      });
     } catch (error) {
       console.error('댓글 좋아요 오류:', error);
     }
@@ -347,7 +326,7 @@ export const PostsManager = () => {
   };
 
   const handleClickAddComment = (postId: string) => {
-    setNewComment((prev) => ({ ...prev, postId }));
+    setNewComment({ ...newComment, postId });
     setShowAddCommentDialog(true);
   };
 
@@ -491,25 +470,7 @@ export const PostsManager = () => {
         <AddPost />
         <EditPost />
 
-        {/* 댓글 추가 대화상자 */}
-        <Dialog
-          open={showAddCommentDialog}
-          onOpenChange={setShowAddCommentDialog}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>새 댓글 추가</DialogTitle>
-            </DialogHeader>
-            <div className='space-y-4'>
-              <Textarea
-                placeholder='댓글 내용'
-                value={newComment.body}
-                onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
-              />
-              <Button onClick={addComment}>댓글 추가</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+        <AddComment />
 
         {/* 댓글 수정 대화상자 */}
         <Dialog

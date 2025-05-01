@@ -20,7 +20,7 @@ type CommentState = CommentData & CommentActions;
 const initialState: CommentData = {
   comments: {},
   selectedComment: null,
-  newComment: {},
+  newComment: { userId: 1 },
 };
 
 export const useCommentStore = create<CommentState>((set) => ({
@@ -29,7 +29,7 @@ export const useCommentStore = create<CommentState>((set) => ({
   actions: {
     setComments: (comments: Record<number, Comment[]>) => set({ comments }),
     setSelectedComment: (comment: Comment | null) => set({ selectedComment: comment }),
-    setNewComment: (comment: Partial<Comment>) => set({ newComment: comment }),
+    setNewComment: (comment: Partial<Comment>) => set({ newComment: { ...comment } }),
   },
 }));
 
