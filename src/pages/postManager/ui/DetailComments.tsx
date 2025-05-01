@@ -1,13 +1,13 @@
-import { Edit2, Plus, ThumbsUp, Trash2 } from 'lucide-react';
+import { Edit2, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
+import { LikeComment } from '@/feature/likeComment';
 
 interface DetailCommentsProps {
   postId: string;
   comments: any[];
   onClickAdd: (postId: string) => void;
-  onClickLike: (id: string, postId: string) => void;
   onClickEdit: (comment: any) => void;
   onClickDelete: (id: string, postId: string) => void;
 }
@@ -16,7 +16,6 @@ export const DetailComments = ({
   postId,
   comments,
   onClickAdd,
-  onClickLike,
   onClickEdit,
   onClickDelete,
 }: DetailCommentsProps) => {
@@ -46,14 +45,10 @@ export const DetailComments = ({
               <span className='truncate'>{highlightText(comment.body, searchQuery)}</span>
             </div>
             <div className='flex items-center space-x-1'>
-              <Button
-                variant='ghost'
-                size='sm'
-                onClick={() => onClickLike(comment.id, postId)}
-              >
-                <ThumbsUp className='w-3 h-3' />
-                <span className='ml-1 text-xs'>{comment.likes}</span>
-              </Button>
+              <LikeComment
+                comment={comment}
+                postId={postId}
+              />
               <Button
                 variant='ghost'
                 size='sm'

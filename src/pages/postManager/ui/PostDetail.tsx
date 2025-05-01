@@ -9,7 +9,6 @@ interface PostDetailProps {
   selectedPost: any;
   comments: any;
   onClickAdd: (postId: string) => void;
-  onClickLike: (id: string, postId: string) => void;
   onClickEdit: (comment: any) => void;
   onClickDelete: (id: string, postId: string) => void;
 }
@@ -20,7 +19,6 @@ export const PostDetail = ({
   selectedPost,
   comments,
   onClickAdd,
-  onClickLike,
   onClickEdit,
   onClickDelete,
 }: PostDetailProps) => {
@@ -42,7 +40,6 @@ export const PostDetail = ({
           <DetailComments
             postId={selectedPost?.id}
             comments={comments}
-            onClickLike={onClickLike}
             onClickDelete={onClickDelete}
             onClickAdd={onClickAdd}
             onClickEdit={onClickEdit}

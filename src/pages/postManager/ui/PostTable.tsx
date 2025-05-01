@@ -1,9 +1,11 @@
-import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react';
+import { Edit2, ThumbsDown, ThumbsUp } from 'lucide-react';
 
 import { Button } from '@/shared/ui';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
 import { DeletePost } from '@/feature/deletePost';
+import { useDialogActions, usePostActions } from '@/shared/model/store';
+import { OpenPostDetail } from '@/feature/openPostDetail';
 
 const DEFAULT_BUTTON_PROPS: any = {
   variant: 'ghost',
@@ -15,20 +17,14 @@ interface PostTableProps {
   selectedTag: string;
   onClickTag: (tag: string) => void;
   onClickAuthor: (author: any) => void;
-  onClickPostComment: (post: any) => void;
-  onClickEdit: (post: any) => void;
 }
 
-export const PostTable = ({
-  posts,
-  selectedTag,
-  onClickTag,
-  onClickAuthor,
-  onClickPostComment,
-  onClickEdit,
-}: PostTableProps) => {
+export const PostTable = ({ posts, selectedTag, onClickTag, onClickAuthor }: PostTableProps) => {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
+
+  const { setSelectedPost } = usePostActions();
+  const { setShowEditDialog } = useDialogActions();
 
   return (
     <Table>
@@ -90,15 +86,13 @@ export const PostTable = ({
             </TableCell>
             <TableCell>
               <div className='flex items-center gap-2'>
+                <OpenPostDetail post={post} />
                 <Button
                   {...DEFAULT_BUTTON_PROPS}
-                  onClick={() => onClickPostComment(post)}
-                >
-                  <MessageSquare className='w-4 h-4' />
-                </Button>
-                <Button
-                  {...DEFAULT_BUTTON_PROPS}
-                  onClick={() => onClickEdit(post)}
+                  onClick={() => {
+                    setSelectedPost(post);
+                    setShowEditDialog(true);
+                  }}
                 >
                   <Edit2 className='w-4 h-4' />
                 </Button>

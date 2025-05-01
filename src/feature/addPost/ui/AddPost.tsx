@@ -20,5 +20,6 @@ export const AddPost = () => {
       console.error('게시물 추가 오류:', error);
     }
   };
+
   return <Button onClick={handleClickAddPost}>게시물 추가</Button>;
 };

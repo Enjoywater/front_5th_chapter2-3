@@ -52,7 +52,7 @@ export const PostsManager = () => {
   const selectedPost = useSelectedPost();
   const loading = useLoading();
 
-  const { setPosts, setTotal, setSelectedPost, setLoading } = usePostActions();
+  const { setPosts, setTotal, setLoading } = usePostActions();
 
   const skip = useSkip();
   const limit = useLimit();
@@ -72,7 +72,6 @@ export const PostsManager = () => {
 
   const {
     setShowAddDialog,
-    setShowEditDialog,
     setShowAddCommentDialog,
     setShowEditCommentDialog,
     setShowPostDetailDialog,
@@ -107,18 +106,6 @@ export const PostsManager = () => {
     }
   };
 
-  // 댓글 가져오기
-  const fetchComments = async (postId) => {
-    if (comments[postId]) return; // 이미 불러온 댓글이 있으면 다시 불러오지 않음
-    try {
-      const response = await fetch(`/api/comments/post/${postId}`);
-      const data = await response.json();
-      setComments({ ...comments, [postId]: data.comments });
-    } catch (error) {
-      console.error('댓글 가져오기 오류:', error);
-    }
-  };
-
   // 댓글 삭제
   const deleteComment = async (id, postId) => {
     try {
@@ -132,33 +119,6 @@ export const PostsManager = () => {
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
     }
-  };
-
-  // 댓글 좋아요
-  const likeComment = async (id, postId) => {
-    try {
-      const response = await fetch(`/api/comments/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ likes: comments[postId].find((c) => c.id === id).likes + 1 }),
-      });
-      const data = await response.json();
-      setComments({
-        ...comments,
-        [postId]: comments[postId].map((comment) =>
-          comment.id === data.id ? { ...data, likes: comment.likes + 1 } : comment,
-        ),
-      });
-    } catch (error) {
-      console.error('댓글 좋아요 오류:', error);
-    }
-  };
-
-  // 게시물 상세 보기
-  const openPostDetail = (post) => {
-    setSelectedPost(post);
-    fetchComments(post.id);
-    setShowPostDetailDialog(true);
   };
 
   // 사용자 모달 열기
@@ -193,11 +153,6 @@ export const PostsManager = () => {
     navigate(`?${queryParams.toString()}`);
   };
 
-  const handleClickEdit = (post: any) => {
-    setSelectedPost(post);
-    setShowEditDialog(true);
-  };
-
   const handleClickAddComment = (postId: string) => {
     setNewComment({ ...newComment, postId });
     setShowAddCommentDialog(true);
@@ -223,7 +178,7 @@ export const PostsManager = () => {
         </CardHeader>
         <CardContent>
           <div className='flex flex-col gap-4'>
-            {/* 검색 및 필터 컨트롤 */}
+            {/* 검색 및 필터 컨트롤 widget*/}
             <div className='flex gap-4'>
               <SearchPost />
               <SortByTag />
@@ -240,8 +195,6 @@ export const PostsManager = () => {
                 selectedTag={selectedTag}
                 onClickTag={handleClickTag}
                 onClickAuthor={openUserModal}
-                onClickPostComment={openPostDetail}
-                onClickEdit={handleClickEdit}
               />
             )}
 
@@ -262,7 +215,6 @@ export const PostsManager = () => {
           onClickOpenChange={setShowPostDetailDialog}
           selectedPost={selectedPost}
           onClickAdd={handleClickAddComment}
-          onClickLike={likeComment}
           onClickEdit={handleClickEditComment}
           onClickDelete={deleteComment}
         />
