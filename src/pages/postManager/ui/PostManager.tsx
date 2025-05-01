@@ -26,7 +26,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { Button } from '@/shared/ui';
 import { Input } from '@/shared/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/shared/ui';
 
 import { PostDetail } from './PostDetail';
@@ -39,6 +38,7 @@ import { UpdateComment } from '@/feature/editComment';
 import { SortByTag } from '@/feature/sortByTag';
 import { SortByValue } from '@/feature/sortByValue';
 import { SortByOrder } from '@/feature/sortByOrder';
+import { Pagination } from '@/feature/pagination';
 
 export const PostsManager = () => {
   const navigate = useNavigate();
@@ -47,7 +47,6 @@ export const PostsManager = () => {
 
   // 전역상태
   const posts = usePosts();
-  const total = useTotal();
   const selectedPost = useSelectedPost();
   const loading = useLoading();
 
@@ -354,40 +353,7 @@ export const PostsManager = () => {
               />
             )}
 
-            {/* 페이지네이션 */}
-            <div className='flex justify-between items-center'>
-              <div className='flex items-center gap-2'>
-                <span>표시</span>
-                <Select
-                  value={limit.toString()}
-                  onValueChange={(value) => setLimit(Number(value))}
-                >
-                  <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='10' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='10'>10</SelectItem>
-                    <SelectItem value='20'>20</SelectItem>
-                    <SelectItem value='30'>30</SelectItem>
-                  </SelectContent>
-                </Select>
-                <span>항목</span>
-              </div>
-              <div className='flex gap-2'>
-                <Button
-                  disabled={skip === 0}
-                  onClick={() => setSkip(Math.max(0, skip - limit))}
-                >
-                  이전
-                </Button>
-                <Button
-                  disabled={skip + limit >= total}
-                  onClick={() => setSkip(skip + limit)}
-                >
-                  다음
-                </Button>
-              </div>
-            </div>
+            <Pagination />
           </div>
         </CardContent>
 
