@@ -1,9 +1,9 @@
 import { getUsers } from '@/entities/user';
 import { getPosts } from '../api';
 
-export const fetchPostsWithUsers = async (limit: number, skip: number) => {
+export const fetchPostsWithUsers = async ({ limit, skip }: { limit: number; skip: number }) => {
   try {
-    const { data: postsRes } = await getPosts(limit, skip);
+    const { data: postsRes } = await getPosts({ limit, skip });
     const { data: usersRes } = await getUsers();
 
     const postsWithUsers = postsRes.posts.map((post) => ({

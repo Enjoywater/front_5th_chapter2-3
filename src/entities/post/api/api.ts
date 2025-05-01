@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-export const getPosts = (skip: number, limit: number) =>
+export const getPosts = ({ limit, skip }: { limit: number; skip: number }) =>
   axios.get(`/api/posts`, {
     params: {
-      skip,
       limit,
+      skip,
     },
   });
 
@@ -16,7 +16,7 @@ export const addPost = (newPost: any) =>
     headers: { 'Content-Type': 'application/json' },
   });
 
-export const deletePost = (id: string) =>
+export const deletePost = (id: number) =>
   axios.delete(`/api/posts/${id}`, {
     headers: { 'Content-Type': 'application/json' },
   });

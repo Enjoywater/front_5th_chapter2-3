@@ -16,7 +16,7 @@ export const useGetTagPost = () => {
     setLoading(true);
 
     try {
-      const { posts, total } = await fetchPostsWithUsers(limit, skip);
+      const { posts, total } = await fetchPostsWithUsers({ limit, skip });
 
       setPosts(posts);
       setTotal(total);

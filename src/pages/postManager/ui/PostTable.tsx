@@ -3,6 +3,7 @@ import { Edit2, MessageSquare, ThumbsDown, ThumbsUp, Trash2 } from 'lucide-react
 import { Button } from '@/shared/ui';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
+import { DeletePost } from '@/feature/deletePost';
 
 const DEFAULT_BUTTON_PROPS: any = {
   variant: 'ghost',
@@ -16,7 +17,6 @@ interface PostTableProps {
   onClickAuthor: (author: any) => void;
   onClickPostComment: (post: any) => void;
   onClickEdit: (post: any) => void;
-  onClickDelete: (id: string) => void;
 }
 
 export const PostTable = ({
@@ -26,7 +26,6 @@ export const PostTable = ({
   onClickAuthor,
   onClickPostComment,
   onClickEdit,
-  onClickDelete,
 }: PostTableProps) => {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
@@ -103,12 +102,7 @@ export const PostTable = ({
                 >
                   <Edit2 className='w-4 h-4' />
                 </Button>
-                <Button
-                  {...DEFAULT_BUTTON_PROPS}
-                  onClick={() => onClickDelete(post.id)}
-                >
-                  <Trash2 className='w-4 h-4' />
-                </Button>
+                <DeletePost id={post.id} />
               </div>
             </TableCell>
           </TableRow>

@@ -39,6 +39,7 @@ import { Pagination } from '@/feature/pagination';
 import { UserInfo } from '@/feature/userInfo';
 import { useQueryParams } from '@/shared/hooks/useQueryParams';
 import { SearchPost } from '@/feature/searchPost';
+import { fetchPostsByTag, fetchPostsWithUsers } from '@/entities/post';
 
 export const PostsManager = () => {
   useQueryParams();
@@ -80,34 +81,19 @@ export const PostsManager = () => {
 
   const { setSelectedUser } = useUserActions();
 
-  // 게시물 가져오기
-  const fetchPosts = () => {
+  const fetchPosts = async () => {
     setLoading(true);
-    let postsData;
-    let usersData;
 
-    fetch(`/api/posts?limit=${limit}&skip=${skip}`)
-      .then((response) => response.json())
-      .then((data) => {
-        postsData = data;
-        return fetch('/api/users?limit=0&select=username,image');
-      })
-      .then((response) => response.json())
-      .then((users) => {
-        usersData = users.users;
-        const postsWithUsers = postsData.posts.map((post) => ({
-          ...post,
-          author: usersData.find((user) => user.id === post.userId),
-        }));
-        setPosts(postsWithUsers);
-        setTotal(postsData.total);
-      })
-      .catch((error) => {
-        console.error('게시물 가져오기 오류:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    try {
+      const { posts, total } = await fetchPostsWithUsers({ limit, skip });
+
+      setPosts(posts);
+      setTotal(total);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 태그 가져오기
@@ -118,46 +104,6 @@ export const PostsManager = () => {
       setTags(data);
     } catch (error) {
       console.error('태그 가져오기 오류:', error);
-    }
-  };
-
-  // 태그별 게시물 가져오기
-  const fetchPostsByTag = async (tag) => {
-    if (!tag || tag === 'all') {
-      fetchPosts();
-      return;
-    }
-    setLoading(true);
-    try {
-      const [postsResponse, usersResponse] = await Promise.all([
-        fetch(`/api/posts/tag/${tag}`),
-        fetch('/api/users?limit=0&select=username,image'),
-      ]);
-      const postsData = await postsResponse.json();
-      const usersData = await usersResponse.json();
-
-      const postsWithUsers = postsData.posts.map((post) => ({
-        ...post,
-        author: usersData.users.find((user) => user.id === post.userId),
-      }));
-
-      setPosts(postsWithUsers);
-      setTotal(postsData.total);
-    } catch (error) {
-      console.error('태그별 게시물 가져오기 오류:', error);
-    }
-    setLoading(false);
-  };
-
-  // 게시물 삭제
-  const deletePost = async (id) => {
-    try {
-      await fetch(`/api/posts/${id}`, {
-        method: 'DELETE',
-      });
-      setPosts(posts.filter((post) => post.id !== id));
-    } catch (error) {
-      console.error('게시물 삭제 오류:', error);
     }
   };
 
@@ -296,7 +242,6 @@ export const PostsManager = () => {
                 onClickAuthor={openUserModal}
                 onClickPostComment={openPostDetail}
                 onClickEdit={handleClickEdit}
-                onClickDelete={deletePost}
               />
             )}
 
