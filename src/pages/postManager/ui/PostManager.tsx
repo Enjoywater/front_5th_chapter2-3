@@ -29,7 +29,7 @@ import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
 
 import { AddPost } from '@/feature/addPost';
-import { EditPost } from '@/feature/editPost';
+import { EditPostDialog } from '@/widgets/editPostDialog';
 import { AddComment } from '@/feature/addComment';
 import { UpdateComment } from '@/feature/editComment';
 import { SortByTag } from '@/feature/sortByTag';
@@ -250,7 +250,7 @@ export const PostsManager = () => {
         </CardContent>
 
         <AddPost />
-        <EditPost />
+        <EditPostDialog />
 
         <AddComment />
         <UpdateComment />

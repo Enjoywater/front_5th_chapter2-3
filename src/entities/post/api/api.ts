@@ -20,3 +20,8 @@ export const deletePost = (id: number) =>
   axios.delete(`/api/posts/${id}`, {
     headers: { 'Content-Type': 'application/json' },
   });
+
+export const updatePost = ({ id, selectedPost }: { id: number; selectedPost: any }) =>
+  axios.put(`/api/posts/${id}`, selectedPost, {
+    headers: { 'Content-Type': 'application/json' },
+  });
