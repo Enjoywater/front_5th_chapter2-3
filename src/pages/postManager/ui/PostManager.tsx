@@ -28,7 +28,7 @@ import { Button } from '@/shared/ui';
 import { PostDetail } from './PostDetail';
 import { PostTable } from './PostTable';
 
-import { AddPost } from '@/feature/addPost';
+import { AddPostDialog } from '@/widgets/addPostDialog';
 import { EditPostDialog } from '@/widgets/editPostDialog';
 import { AddComment } from '@/feature/addComment';
 import { UpdateComment } from '@/feature/editComment';
@@ -249,7 +249,7 @@ export const PostsManager = () => {
           </div>
         </CardContent>
 
-        <AddPost />
+        <AddPostDialog />
         <EditPostDialog />
 
         <AddComment />
