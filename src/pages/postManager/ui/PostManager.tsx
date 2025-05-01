@@ -22,6 +22,13 @@ import {
   useTagActions,
   useTags,
   useTotal,
+  useDialogActions,
+  useShowAddCommentDialog,
+  useShowAddDialog,
+  useShowEditCommentDialog,
+  useShowEditDialog,
+  useShowPostDetailDialog,
+  useShowUserDialog,
 } from '@/shared/model/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
 import { Button } from '@/shared/ui';
@@ -65,14 +72,23 @@ export const PostsManager = () => {
 
   const { setComments, setSelectedComment, setNewComment } = useCommentActions();
 
-  // 상태 관리
+  const showAddDialog = useShowAddDialog();
+  const showEditDialog = useShowEditDialog();
+  const showAddCommentDialog = useShowAddCommentDialog();
+  const showEditCommentDialog = useShowEditCommentDialog();
+  const showPostDetailDialog = useShowPostDetailDialog();
+  const showUserDialog = useShowUserDialog();
+
+  const {
+    setShowAddDialog,
+    setShowEditDialog,
+    setShowAddCommentDialog,
+    setShowEditCommentDialog,
+    setShowPostDetailDialog,
+    setShowUserDialog,
+  } = useDialogActions();
+
   const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showEditDialog, setShowEditDialog] = useState(false);
-  const [showAddCommentDialog, setShowAddCommentDialog] = useState(false);
-  const [showEditCommentDialog, setShowEditCommentDialog] = useState(false);
-  const [showPostDetailDialog, setShowPostDetailDialog] = useState(false);
-  const [showUserModal, setShowUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
   // URL 업데이트 함수
@@ -322,7 +338,7 @@ export const PostsManager = () => {
       const response = await fetch(`/api/users/${user.id}`);
       const userData = await response.json();
       setSelectedUser(userData);
-      setShowUserModal(true);
+      setShowUserDialog(true);
     } catch (error) {
       console.error('사용자 정보 가져오기 오류:', error);
     }
@@ -615,8 +631,8 @@ export const PostsManager = () => {
 
         {/* 사용자 모달 */}
         <Dialog
-          open={showUserModal}
-          onOpenChange={setShowUserModal}
+          open={showUserDialog}
+          onOpenChange={setShowUserDialog}
         >
           <DialogContent>
             <DialogHeader>
