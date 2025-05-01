@@ -4,12 +4,16 @@ import { Plus, Search } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import {
+  useCommentActions,
+  useComments,
   useLimit,
   useLoading,
+  useNewComment,
   useNewPost,
   usePostActions,
   usePostFilterActions,
   usePosts,
+  useSelectedComment,
   useSelectedPost,
   useSelectedTag,
   useSkip,
@@ -55,13 +59,16 @@ export const PostsManager = () => {
 
   const { setTags, setSelectedTag } = useTagActions();
 
+  const comments = useComments();
+  const selectedComment = useSelectedComment();
+  const newComment = useNewComment();
+
+  const { setComments, setSelectedComment, setNewComment } = useCommentActions();
+
   // 상태 관리
   const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const [comments, setComments] = useState({});
-  const [selectedComment, setSelectedComment] = useState(null);
-  const [newComment, setNewComment] = useState({ body: '', postId: null, userId: 1 });
   const [showAddCommentDialog, setShowAddCommentDialog] = useState(false);
   const [showEditCommentDialog, setShowEditCommentDialog] = useState(false);
   const [showPostDetailDialog, setShowPostDetailDialog] = useState(false);
