@@ -11,9 +11,12 @@ import {
   usePostFilterActions,
   usePosts,
   useSelectedPost,
+  useSelectedTag,
   useSkip,
   useSortBy,
   useSortOrder,
+  useTagActions,
+  useTags,
   useTotal,
 } from '@/shared/model/store';
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui';
@@ -47,12 +50,15 @@ export const PostsManager = () => {
 
   const { setSkip, setLimit, setSortBy, setSortOrder } = usePostFilterActions();
 
+  const tags = useTags();
+  const selectedTag = useSelectedTag();
+
+  const { setTags, setSelectedTag } = useTagActions();
+
   // 상태 관리
   const [searchQuery, setSearchQuery] = useState(queryParams.get('search') || ''); // ! 보류
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
-  const [tags, setTags] = useState([]);
-  const [selectedTag, setSelectedTag] = useState(queryParams.get('tag') || '');
   const [comments, setComments] = useState({});
   const [selectedComment, setSelectedComment] = useState(null);
   const [newComment, setNewComment] = useState({ body: '', postId: null, userId: 1 });
