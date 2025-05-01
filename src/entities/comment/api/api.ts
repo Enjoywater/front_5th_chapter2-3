@@ -8,3 +8,8 @@ export const likeComment = ({ id, likes }: { id: number; likes: number }) =>
   axios.patch(`/api/comments/${id}`, {
     likes,
   });
+
+export const addComment = (newComment: any) =>
+  axios.post('/api/comments/add', {
+    newComment,
+  });

@@ -29,7 +29,7 @@ import { PostTable } from './PostTable';
 
 import { AddPostDialog } from '@/widgets/addPostDialog';
 import { EditPostDialog } from '@/widgets/editPostDialog';
-import { AddComment } from '@/feature/addComment';
+import { AddCommentDialog } from '@/widgets/addCommentDialog';
 import { UpdateComment } from '@/feature/editComment';
 import { SortByTag } from '@/feature/sortByTag';
 import { SortByValue } from '@/feature/sortByValue';
@@ -188,7 +188,7 @@ export const PostsManager = () => {
         <AddPostDialog />
         <EditPostDialog />
 
-        <AddComment />
+        <AddCommentDialog />
         <UpdateComment />
 
         {/* 게시물 상세 보기 대화상자 */}
