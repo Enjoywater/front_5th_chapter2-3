@@ -3,7 +3,7 @@ import { useCommentActions, useComments } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
 import { Trash2 } from 'lucide-react';
 
-export const DeleteComment = ({ comment, postId }: { comment: any; postId: string }) => {
+export const DeleteComment = ({ comment, postId }: { comment: any; postId: number }) => {
   const comments = useComments();
 
   const { setComments } = useCommentActions();
@@ -14,7 +14,7 @@ export const DeleteComment = ({ comment, postId }: { comment: any; postId: strin
 
       setComments({
         ...comments,
-        [postId]: comments[postId].filter((comment) => comment.id !== id),
+        [postId]: comments[postId].filter((postComment) => postComment.id !== comment.id),
       });
     } catch (error) {
       console.error('댓글 삭제 오류:', error);

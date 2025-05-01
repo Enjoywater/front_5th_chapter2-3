@@ -1,29 +1,44 @@
 import { Edit2, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '@/shared/ui';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui';
 import { highlightText } from '@/shared/utils';
 import { DeletePost } from '@/feature/deletePost';
-import { useDialogActions, usePostActions } from '@/shared/model/store';
+import {
+  useDialogActions,
+  usePostActions,
+  usePosts,
+  useSelectedTag,
+  useTagActions,
+} from '@/shared/model/store';
 import { OpenPostDetail } from '@/feature/openPostDetail';
 import { OpenUserDetail } from '@/feature/openUserDetail';
 
-interface PostTableProps {
-  posts: any[];
-  selectedTag: string;
-  onClickTag: (tag: string) => void;
-}
+export const PostTable = () => {
+  const navigate = useNavigate();
 
-export const PostTable = ({ posts, selectedTag, onClickTag }: PostTableProps) => {
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('search') || '';
 
+  const posts = usePosts();
+  const selectedTag = useSelectedTag();
+
   const { setSelectedPost } = usePostActions();
   const { setShowEditDialog } = useDialogActions();
+  const { setSelectedTag } = useTagActions();
 
   const handleClickEdit = (post: any) => {
     setSelectedPost(post);
     setShowEditDialog(true);
+  };
+
+  const handleClickTag = (tag: string) => {
+    setSelectedTag(tag);
+
+    if (selectedTag) queryParams.set('tag', selectedTag);
+
+    navigate(`?${queryParams.toString()}`);
   };
 
   return (
@@ -55,7 +70,7 @@ export const PostTable = ({ posts, selectedTag, onClickTag }: PostTableProps) =>
                           ? 'text-white bg-blue-500 hover:bg-blue-600'
                           : 'text-blue-800 bg-blue-100 hover:bg-blue-200'
                       }`}
-                      onClick={() => onClickTag(tag)}
+                      onClick={() => handleClickTag(tag)}
                     >
                       {tag}
                     </span>

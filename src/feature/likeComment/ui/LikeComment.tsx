@@ -3,7 +3,7 @@ import { useCommentActions, useComments } from '@/shared/model/store';
 import { Button } from '@/shared/ui';
 import { ThumbsUp } from 'lucide-react';
 
-export const LikeComment = ({ comment, postId }: { comment: any; postId: string }) => {
+export const LikeComment = ({ comment, postId }: { comment: any; postId: number }) => {
   const comments = useComments();
   const { setComments } = useCommentActions();
 
